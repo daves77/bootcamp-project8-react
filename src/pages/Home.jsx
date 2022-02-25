@@ -5,7 +5,7 @@ const Home = () => {
 
   return (
     <div>
-      new world test
+      ok should work now
     </div>
   )
 }
