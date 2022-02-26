@@ -1,33 +1,31 @@
-import {createContext, useReducer} from 'react'
+import { createContext, useReducer } from "react";
 
-const USER_SIGNED_IN = "USER_SIGNED_IN"
+const USER_SIGNED_IN = "USER_SIGNED_IN";
 
-const initialState = {
-  user: null
-}
-
-export const marketplaceReducer = (state, action) => {
-  switch(action.type){
+export const userDetailsReducer = (state, action) => {
+  switch (action.type) {
     case USER_SIGNED_IN:
-      const x =  {...state, user:action.payload.user}
-      console.log(x)
-      return x
+      const newUserState = action.userDetails;
+      console.log(newUserState);
+      return newUserState;
     default:
-      return state
+      return state;
   }
-}
+};
 
-
-export const userSignIn = (user) => {
+export const userSignIn = (userDetails) => {
   return {
     type: USER_SIGNED_IN,
-    payload: {user}
-  }
-}
+    userDetails,
+  };
+};
 
-export const Context = createContext()
+export const Context = createContext();
 
-export const MarketplaceProvider = ({children}) => {
-  const [store, dispatch] = useReducer(marketplaceReducer, initialState )
-  return <Context.Provider value={{store, dispatch}}>{children}</Context.Provider>
-}
+export const MarketplaceProvider = ({ children }) => {
+  /* set initial userState to be null */
+  const [userState, dispatchUserState] = useReducer(userDetailsReducer, null);
+  return (
+    <Context.Provider value={{ userState, dispatchUserState }}>{children}</Context.Provider>
+  );
+};

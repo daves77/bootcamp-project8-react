@@ -1,18 +1,15 @@
-import React from 'react'
+import React from "react";
 // material
-import { Container, Stack, Typography } from '@mui/material';
+import { Container, Stack, Typography } from "@mui/material";
 // components
-import Page from '../components/Page';
-import {
-  NFTListing,
-} from '../sections/marketplace';
+import Page from "../components/Page";
+import { NFTListing } from "../sections/marketplace";
 //
-import PRODUCTS from '../_mocks_/products';
+import PRODUCTS from "../_mocks_/products";
 
 // ----------------------------------------------------------------------
 
 export default function EcommerceShop() {
-
   return (
     <Page title="Closed Land | Marketplace">
       <Container>
@@ -26,8 +23,7 @@ export default function EcommerceShop() {
           alignItems="center"
           justifyContent="flex-end"
           sx={{ mb: 5 }}
-        >
-        </Stack>
+        ></Stack>
 
         <NFTListing listings={PRODUCTS} />
       </Container>

@@ -1,12 +1,13 @@
 import React from 'react'
-
+import Page from '../components/Page';
 
 const Home = () => {
 
   return (
-    <div>
-      ok should work now
-    </div>
+    
+    <Page title="Closed Land | Home">
+      <p>ok should work now</p>
+    </Page>
   )
 }
 
