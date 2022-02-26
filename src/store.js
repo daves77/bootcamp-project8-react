@@ -3,15 +3,16 @@ import {createContext, useReducer} from 'react'
 const USER_SIGNED_IN = "USER_SIGNED_IN"
 
 const initialState = {
-  user: null
+  user: null,
+  provider: null,
+  nftContract: null,
+  marketContract: null
 }
 
 export const marketplaceReducer = (state, action) => {
   switch(action.type){
     case USER_SIGNED_IN:
-      const x =  {...state, user:action.payload.user}
-      console.log(x)
-      return x
+      return {...state, user:action.payload.user}
     default:
       return state
   }
