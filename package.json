@@ -35,8 +35,7 @@
     "react-hook-form": "^7.27.1",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
-    "simplebar-react": "^2.3.6",
-    "web-vitals": "^2.1.4"
+    "simplebar-react": "^2.3.6"
   },
   "scripts": {
     "start": "react-scripts start",

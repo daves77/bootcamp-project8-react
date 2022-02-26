@@ -1,71 +1,34 @@
-# Getting Started with Create React App
+# Technical Notes
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Set-up for react app to run
 
-## Available Scripts
+### Connecting to smart contracts
 
-In the project directory, you can run:
+1. follow instructions in solidity repo scripts/deploy.js to create local blockchain using hardhat and deploy contracts to local blockchain
+   - basically open one terminal and enter `npx hardhat node` to get a blockchain running locally
+   - open 2nd terminal and enter `npx hardhat run --network localhost scripts/deploy.js` to get the contracts deployed on local blockchain
+2. an artifacts folder will be created in solidity repo. copy MarketListing.json and NFT.json from the folder.
+3. paste MarketListing.json and NFT.json into this repo's src/contracts folder (this has already been done... but this step needs to be redone if MarketListing or NFT contracts change)
+4. update addresses in "src/contracts/addressSetting.js" (actually it looks like the contract addresses may be the same everytime they are re-deployed... not sure if they address will change if the contract contents change between deployments... dunno, guess just gotta monitor e addresses everytime we deploy)
+5. the local blockchain comes w 20 accounts tt start w 10000 eth each. Instructions on linking MetaMask to these accounts [here](https://dev.to/dabit3/building-scalable-full-stack-apps-on-ethereum-with-polygon-2cfb)
+6. the 20 accounts are the [same](https://hardhat.org/hardhat-network/#running-stand-alone-in-order-to-support-wallets-and-other-software) for everyone using hardhat's local blockchain!
 
-### `npm start`
+### Connecting to postgresql backend
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. ensure postgresql service running in a terminal
+2. start express server tt serves postgresql db from the bckend repo w `nodemon index.js`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Start up this react app
 
-### `npm test`
+1. finally after the above all done, start up this app with `npm run start`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Troubleshooting local hardhat blockchain issues
 
-### `npm run build`
+### Errors related to artifacts folder/ cache when trying to deploy solidity contracts
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. from the [docs](https://hardhat.org/guides/compile-contracts.html), run `npx hardhat clean` to clear the cache and delete the artifacts from before
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### "Nonce too high..."
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# bootcamp-project8-react
+1. if testing minting and listing with different accounts results in error: "Nonce too high. expected nonce to be 0 but got 9. note that transactions can't be queued when automining".
+2. try solution suggested [here](https://medium.com/@thelasthash/solved-nonce-too-high-error-with-metamask-and-hardhat-adc66f092cd)

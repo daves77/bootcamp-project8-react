@@ -1,16 +1,18 @@
 import React, {useEffect, useContext} from 'react';
 import { Routes, Route } from 'react-router-dom';
+/* 
+1. react-helmet-async used to manipulate tags in head section of html doc 
+2. in this context used to update title tag for different pages, so helmet element only used in ./components/Page
+*/
 import { HelmetProvider } from 'react-helmet-async';
 import {ethers} from 'ethers'
 
 import ThemeConfig from './theme';
-import DashboardLayout from './layouts/dashboard';
-
+import DashboardLayout from './layouts/dashboard'; // file not specified, will look for index.jsx by default 
+import { Context, userSignIn } from './store';
 import Home from './pages/Home';
-import Marketplace from './pages/Marketplace';
+import Marketplace from './pages/Marketplace'; // file not specified, will look for index.jsx by default
 import Create from './pages/Create'
-import {Context, userSignIn} from './store'
-
 
 function App() {
 	const { dispatch} = useContext(Context)
