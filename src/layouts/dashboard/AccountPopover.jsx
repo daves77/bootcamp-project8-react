@@ -1,7 +1,16 @@
+/* react related imports */
 import { useRef, useState, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { Context, userSignIn } from "../../store";
+import Iconify from "../../components/Iconify";
+import MenuPopover from "../../components/MenuPopover";
+/* web3, db related imports */
 import { ethers } from "ethers";
-// material
+import MarketListing from "../../contracts/MarketListing.json";
+import NFT from "../../contracts/NFT.json";
+import { mktAdd, nftAdd } from "../../contracts/addressSetting.js";
+import axios from "axios";
+/* mui related imports */
 import { alpha } from "@mui/material/styles";
 import {
   Button,
@@ -12,12 +21,8 @@ import {
   Avatar,
   IconButton,
 } from "@mui/material";
-// components
-import Iconify from "../../components/Iconify";
-import MenuPopover from "../../components/MenuPopover";
 //
 import account from "../../_mocks_/account";
-import { Context, userSignIn } from "../../store";
 
 // ----------------------------------------------------------------------
 
@@ -62,13 +67,29 @@ export default function AccountPopover() {
 
     const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
     const signer = provider.getSigner();
-    const accountAddress = await signer.getAddress();
 
     /* "eth_requestAccounts" is what prompts MetaMask pop-up to ask user to accept or reject request */
-    // await provider.send("eth_requestAccounts", []);
-    
-    dispatch(userSignIn({ userAddress: accountAddress, name: "david" }));
-    
+    await provider.send("eth_requestAccounts", []);
+    const accountAddress = await signer.getAddress();
+
+    const result = await axios.get(`http://localhost:3004/${accountAddress}`);
+    if (result.data) {
+      let mktSignerContract = new ethers.Contract(
+        mktAdd,
+        MarketListing.abi,
+        signer
+      );
+      let nftSignerContract = new ethers.Contract(nftAdd, NFT.abi, signer);
+      dispatch(
+        userSignIn(
+          { userAddress: accountAddress, userName: result.data.userName },
+          signer,
+          nftSignerContract,
+          mktSignerContract
+        )
+      );
+    return}
+    alert("time to implement create db record modal")
   };
 
   return (
@@ -106,14 +127,7 @@ export default function AccountPopover() {
           >
             <Box sx={{ my: 1.5, px: 2.5 }}>
               <Typography variant="subtitle1" noWrap>
-                {account.displayName}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                {account.email}
+                {user.userName}
               </Typography>
             </Box>
 
@@ -141,7 +155,8 @@ export default function AccountPopover() {
             ))}
 
             <Box sx={{ p: 2, pt: 1.5 }}>
-              <Button fullWidth color="inherit" variant="outlined">
+              <Button onClick={()=>{window.location.assign("/")}}
+              fullWidth color="inherit" variant="outlined">
                 Logout
               </Button>
             </Box>

@@ -1,18 +1,19 @@
+/* react related imports */
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-// material
-import { styled } from '@mui/material/styles';
-import { Box, Link, Drawer, Typography, Avatar, Stack } from '@mui/material';
-// mocks_
-import account from '../../_mocks_/account';
-// hooks
+import { Context } from "../../store";
 import useResponsive from '../../hooks/useResponsive';
-// components
 import Logo from '../../components/Logo';
 import Iconify from "../../components/Iconify"
 import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
+/* mui related imports */
+import { styled } from '@mui/material/styles';
+import { Box, Link, Drawer, Typography, Avatar, Stack } from '@mui/material';
+// mocks_
+import account from '../../_mocks_/account';
+
 //
 
 // ----------------------------------------------------------------------
@@ -62,6 +63,8 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
+  const { store, dispatch } = useContext(Context);
+  const { user } = store;
 
   const isDesktop = useResponsive('up', 'lg');
 
@@ -85,17 +88,17 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
-          <AccountStyle>
+          {user && <AccountStyle>
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {user.userName}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {account.role}
               </Typography>
             </Box>
-          </AccountStyle>
+          </AccountStyle>}
         </Link>
       </Box>
 
