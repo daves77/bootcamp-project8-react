@@ -2,10 +2,8 @@ import { createContext, useReducer } from "react";
 
 /* action type constants */
 const USER_SIGNED_IN = "USER_SIGNED_IN";
-const PROVIDER_CREATED = "PROVIDER_CREATED";
-const SIGNER_CREATED = "SIGNER_CREATED";
-const NFT_PROVIDER_CONTRACT = "NFT_PROVIDER_CONTRACT";
-const MKT_PROVIDER_CONTRACT = "MKT_PROVIDER_CONTRACT";
+const PROVIDERS_UPDATED = "PROVIDERS_UPDATED";
+const SIGNERS_UPDATED = "SIGNERS_UPDATED";
 
 /* useReducer initial state  */
 const initialState = {
@@ -25,22 +23,20 @@ export const marketplaceReducer = (state, action) => {
     case USER_SIGNED_IN:
       newUserState = { ...state, user: action.userDetails };
       return newUserState;
-    case PROVIDER_CREATED:
-      newUserState = { ...state, provider: action.provider };
-      return newUserState;
-    case SIGNER_CREATED:
-      newUserState = { ...state, signer: action.signer };
-      return newUserState;
-    case NFT_PROVIDER_CONTRACT:
+    case PROVIDERS_UPDATED:
       newUserState = {
         ...state,
+        provider: action.provider,
         nftProviderContract: action.nftProviderContract,
+        mktProviderContract: action.mktProviderContract,
       };
       return newUserState;
-    case MKT_PROVIDER_CONTRACT:
+    case SIGNERS_UPDATED:
       newUserState = {
         ...state,
-        mktProviderContract: action.mktProviderContract,
+        signer: action.signer,
+        nftSignerContract: action.nftSignerContract,
+        mktSignerContract: action.mktSignerContract,
       };
       return newUserState;
 
@@ -57,31 +53,25 @@ export const userSignIn = (userDetails) => {
   };
 };
 
-export const createProvider = (provider) => {
+export const createProviders = (
+  provider,
+  nftProviderContract,
+  mktProviderContract
+) => {
   return {
-    type: PROVIDER_CREATED,
+    type: PROVIDERS_UPDATED,
     provider,
-  };
-};
-
-export const createSigner = (signer) => {
-  return {
-    type: SIGNER_CREATED,
-    signer,
-  };
-};
-
-export const createNftProviderContract = (nftProviderContract) => {
-  return {
-    type: NFT_PROVIDER_CONTRACT,
     nftProviderContract,
+    mktProviderContract,
   };
 };
 
-export const createMktProviderContract = (mktProviderContract) => {
+export const createSigners = (signer, nftSignerContract, mktSignerContract) => {
   return {
-    type: MKT_PROVIDER_CONTRACT,
-    mktProviderContract,
+    type: SIGNERS_UPDATED,
+    signer,
+    nftSignerContract,
+    mktSignerContract,
   };
 };
 

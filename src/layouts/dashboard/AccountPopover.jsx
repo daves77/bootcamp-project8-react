@@ -17,7 +17,7 @@ import Iconify from "../../components/Iconify";
 import MenuPopover from "../../components/MenuPopover";
 //
 import account from "../../_mocks_/account";
-import { Context, createProvider, createSigner, userSignIn } from "../../store";
+import { Context, userSignIn } from "../../store";
 
 // ----------------------------------------------------------------------
 
@@ -68,9 +68,7 @@ export default function AccountPopover() {
     // await provider.send("eth_requestAccounts", []);
     
     dispatch(userSignIn({ userAddress: accountAddress, name: "david" }));
-    dispatch(createProvider({ provider }));
-    dispatch(createSigner({ signer }));
-
+    
   };
 
   return (
