@@ -17,7 +17,7 @@ import Iconify from "../../components/Iconify";
 import MenuPopover from "../../components/MenuPopover";
 //
 import account from "../../_mocks_/account";
-import { Context, userSignIn } from "../../store";
+import { Context, createProvider, createSigner, userSignIn } from "../../store";
 
 // ----------------------------------------------------------------------
 
@@ -44,8 +44,8 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const { userState, dispatchUserState } = useContext(Context);
-  const user  = userState;
+  const { store, dispatch } = useContext(Context);
+  const { user } = store;
 
   const handleOpen = () => {
     setOpen(true);
@@ -61,19 +61,18 @@ export default function AccountPopover() {
     }
 
     const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-    // setProvider(provider);
     const signer = provider.getSigner();
-    // console.log(signer);
-    // setSigner(signer);
+    const accountAddress = await signer.getAddress();
 
     /* "eth_requestAccounts" is what prompts MetaMask pop-up to ask user to accept or reject request */
-    await provider.send("eth_requestAccounts", []);
-    let account = await signer.getAddress();
-    // console.log(account);
-    dispatchUserState(userSignIn({ userAddress: account, name: "david" }));
+    // await provider.send("eth_requestAccounts", []);
+    
+    dispatch(userSignIn({ userAddress: accountAddress, name: "david" }));
+    dispatch(createProvider({ provider }));
+    dispatch(createSigner({ signer }));
+
   };
 
-  console.log("This is user", user)
   return (
     <>
       {user ? (
