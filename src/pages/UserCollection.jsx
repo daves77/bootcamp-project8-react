@@ -9,13 +9,13 @@ import PRODUCTS from "../_mocks_/products";
 
 // ----------------------------------------------------------------------
 
-export default function Marketplace() {
+export default function UserCollection() {
   return (
-    <Page title="Closed Land | Marketplace">
+    <Page title="Closed Land | Collection">
       <Container>
         <Typography variant="h2" sx={{ mb: 5 }}>
-          Marketplace
-        </Typography>
+          My Collection
+      </Typography>
 
         <Stack
           direction="row"
