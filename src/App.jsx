@@ -12,11 +12,6 @@ import DashboardLayout from './layouts/dashboard'; // file not specified, will l
 import {
 	Context,
 	userSignIn,
-<<<<<<< HEAD
-=======
-	createMarketContract,
-	createNFTContract,
->>>>>>> develop
 } from './store';
 import Home from './pages/Home';
 import Marketplace from './pages/Marketplace'; // file not specified, will look for index.jsx by default
@@ -44,7 +39,6 @@ function App() {
 	// 			'any'
 	// 		);
 
-<<<<<<< HEAD
 	// 		/* 
 	// 		this chunk of code checks to see if theres a account linked to metamask
 	// 		and assigns and creates the contract respectively
@@ -70,32 +64,6 @@ function App() {
 	// 		let nftContractProvider = new ethers.Contract(nftAdd, NFT.abi, signer);
 	// 		// dispatch(createMktProviderContract({ mktContractProvider }));
 	// 		// dispatch(createNftProviderContract({ nftContractProvider }));
-=======
-			/* 
-			this chunk of code checks to see if theres a account linked to metamask
-			and assigns and creates the contract respectively
-			*/
-			let signer;
-			if (account.length > 0) {
-				// find if user address recorded in the db
-				// else make pop up and ask username
-				signer = provider.getSigner();
-				dispatch(
-					userSignIn({ userAddress: await signer.getAddress(), name: 'david' })
-				);
-			} else {
-				signer = provider;
-				console.log('provider', signer);
-			}
-			let marketContract = new ethers.Contract(
-				mktAdd,
-				MarketListing.abi,
-				signer
-			);
-			let nftContract = new ethers.Contract(nftAdd, NFT.abi, signer);
-			dispatch(createMarketContract(marketContract));
-			dispatch(createNFTContract(nftContract));
->>>>>>> develop
 
 	// 		window.ethereum.on('chainChanged', () => {
 	// 			console.log('chain changed');
@@ -115,11 +83,8 @@ function App() {
 						<Route path='/marketplace' element={<Marketplace />} />
 						<Route path='/create' element={<Create />} />
 						<Route path='/user' element={<UserCollection />} />
-<<<<<<< HEAD
 						<Route path='/profile' element={<UserProfile />} />
 						
-=======
->>>>>>> develop
 					</Routes>
 				</DashboardLayout>
 			</ThemeConfig>
