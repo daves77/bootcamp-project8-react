@@ -5,7 +5,7 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { Context } from "../../store";
 import useResponsive from '../../hooks/useResponsive';
 import Logo from '../../components/Logo';
-import Iconify from "../../components/Iconify"
+import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 /* mui related imports */
@@ -15,50 +15,53 @@ import { Box, Link, Drawer, Typography, Avatar, Stack } from '@mui/material';
 import account from '../../_mocks_/account';
 
 //
-
+import { Context } from '../../store';
 // ----------------------------------------------------------------------
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const sidebarConfig = [
-    {
-    title: 'create',
-    path: '/create',
-    icon: getIcon('carbon:add-filled')
-  },
-  {
-    title: 'marketplace',
-    path: '/marketplace',
-    icon: getIcon('eva:pricetags-fill')
-  },
-  {
-    title: 'user',
-    path: '/user',
-    icon: getIcon('eva:people-fill')
-  },
+	{
+		title: 'marketplace',
+		path: '/marketplace',
+		icon: getIcon('eva:pricetags-fill'),
+		authRequired: false,
+	},
+	{
+		title: 'create',
+		path: '/create',
+		icon: getIcon('carbon:add-filled'),
+		authRequired: true,
+	},
+	{
+		title: 'trade',
+		path: '/trade',
+		icon: getIcon('eva:swap-fill'),
+		authRequired: true,
+	},
 ];
 
 const DRAWER_WIDTH = 280;
 
 const RootStyle = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up('lg')]: {
-    flexShrink: 0,
-    width: DRAWER_WIDTH
-  }
+	[theme.breakpoints.up('lg')]: {
+		flexShrink: 0,
+		width: DRAWER_WIDTH,
+	},
 }));
 
 const AccountStyle = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(2, 2.5),
-  borderRadius: Number(theme.shape.borderRadius) * 1.5,
-  backgroundColor: theme.palette.grey[500_12]
+	display: 'flex',
+	alignItems: 'center',
+	padding: theme.spacing(2, 2.5),
+	borderRadius: Number(theme.shape.borderRadius) * 1.5,
+	backgroundColor: theme.palette.grey[500_12],
 }));
 
 // ----------------------------------------------------------------------
 
 DashboardSidebar.propTypes = {
-  isOpenSidebar: PropTypes.bool,
-  onCloseSidebar: PropTypes.func
+	isOpenSidebar: PropTypes.bool,
+	onCloseSidebar: PropTypes.func,
 };
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
