@@ -4,7 +4,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Box, Card, Link, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
-import { fCurrency } from '../../utils/formatNumber';
 //
 import Label from '../../components/Label';
 
@@ -25,12 +24,12 @@ NFTCard.propTypes = {
 };
 
 export default function NFTCard({ listing }) {
-  const { name, cover, price, status, priceSale } = listing;
+  const {tokenId, price, image, seller} = listing
 
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        {status && (
+        {/* {status && (
           <Label
             variant="filled"
             color={(status === 'sale' && 'error') || 'info'}
@@ -44,14 +43,14 @@ export default function NFTCard({ listing }) {
           >
             {status}
           </Label>
-        )}
-        <NFTImageStyle alt={name} src={cover} />
+        )} */}
+        <NFTImageStyle alt={"test"} src={`https://gateway.pinata.cloud/ipfs/${image}`} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Link to="#" color="inherit" underline="hover" component={RouterLink}>
           <Typography variant="subtitle2" noWrap>
-            {name}
+            {seller}
           </Typography>
         </Link>
 
@@ -65,10 +64,9 @@ export default function NFTCard({ listing }) {
                 textDecoration: 'line-through'
               }}
             >
-              {priceSale && fCurrency(priceSale)}
             </Typography>
             &nbsp;
-            {fCurrency(price)}
+            {price} ETH
           </Typography>
         </Stack>
       </Stack>
