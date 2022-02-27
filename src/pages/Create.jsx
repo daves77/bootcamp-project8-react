@@ -1,9 +1,11 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Container, Grid, Typography, Button, TextField } from '@mui/material';
+import { Container, Grid, Typography, Button, TextField, InputAdornment } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import Page from '../components/Page';
+import {pinFile} from '../utils/pinata'
+import {makeToken, listToken} from '../utils/contractInterface'
 
 
 export default function Create() {
@@ -14,7 +16,15 @@ export default function Create() {
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = (data) => console.log(data);
+	const onSubmit = async (data) => {
+    const metadata = {
+      name: data.name,
+      description: data.description
+    }
+    const ipfsHash = await pinFile(data.image[0], metadata)
+    console.log(ipfsHash)
+
+  };
 
 	return (
 		<Page title='Closed Land | Create'>
@@ -37,10 +47,21 @@ export default function Create() {
 						<Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
 							<TextField
 								variant='outlined'
-								label='name'
+								label='Name'
 								{...register('name')}
 							/>
 						</Grid>
+						<Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
+							<TextField
+								variant='outlined'
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">ETH</InputAdornment>,
+                }}
+								label='Price'
+								{...register('price')}
+							/>
+						</Grid>
+		
 						<Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
 							<TextField
 								variant='outlined'

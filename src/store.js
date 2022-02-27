@@ -4,18 +4,16 @@ import { createContext, useReducer } from "react";
 const USER_SIGNED_IN = "USER_SIGNED_IN";
 const PROVIDER_CREATED = "PROVIDER_CREATED";
 const SIGNER_CREATED = "SIGNER_CREATED";
-const NFT_PROVIDER_CONTRACT = "NFT_PROVIDER_CONTRACT";
-const MKT_PROVIDER_CONTRACT = "MKT_PROVIDER_CONTRACT";
+const NFT_CONTRACT_CREATED = "NFT_CONTRACT_CREATED";
+const MKT_CONTRACT_CREATED = "MKT_CONTRACT_CREATED";
 
 /* useReducer initial state  */
 const initialState = {
   user: null,
   provider: null,
   signer: null,
-  nftProviderContract: null,
-  nftSignerContract: null,
-  mktProviderContract: null,
-  mktSignerContract: null,
+  marketContract: null,
+  nftContract: null
 };
 
 /* useReducer reducer function */
@@ -31,16 +29,16 @@ export const marketplaceReducer = (state, action) => {
     case SIGNER_CREATED:
       newUserState = { ...state, signer: action.signer };
       return newUserState;
-    case NFT_PROVIDER_CONTRACT:
+    case NFT_CONTRACT_CREATED:
       newUserState = {
         ...state,
-        nftProviderContract: action.nftProviderContract,
+        nftContract: action.nftContract,
       };
       return newUserState;
-    case MKT_PROVIDER_CONTRACT:
+    case MKT_CONTRACT_CREATED:
       newUserState = {
         ...state,
-        mktProviderContract: action.mktProviderContract,
+        marketContract: action.marketContract,
       };
       return newUserState;
 
@@ -71,17 +69,17 @@ export const createSigner = (signer) => {
   };
 };
 
-export const createNftProviderContract = (nftProviderContract) => {
+export const createNFTContract = (nftContract) => {
   return {
-    type: NFT_PROVIDER_CONTRACT,
-    nftProviderContract,
+    type: NFT_CONTRACT_CREATED,
+    nftContract,
   };
 };
 
-export const createMktProviderContract = (mktProviderContract) => {
+export const createMarketContract = (marketContract) => {
   return {
-    type: MKT_PROVIDER_CONTRACT,
-    mktProviderContract,
+    type: MKT_CONTRACT_CREATED,
+    marketContract,
   };
 };
 

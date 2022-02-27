@@ -19,8 +19,8 @@ import MenuPopover from '../../components/MenuPopover';
 import account from '../../_mocks_/account';
 import {
 	Context,
-	createMktProviderContract,
-	createNftProviderContract,
+	createMarketContract,
+	createNFTContract,
   userSignIn
 } from '../../store';
 
@@ -81,8 +81,8 @@ export default function AccountPopover() {
 			signer
 		);
 		let nftContractProvider = new ethers.Contract(nftAdd, NFT.abi, signer);
-		dispatch(createMktProviderContract({ mktContractProvider }));
-		dispatch(createNftProviderContract({ nftContractProvider }));
+		dispatch(createMarketContract({ mktContractProvider }));
+		dispatch(createNFTContract({ nftContractProvider }));
     dispatch(userSignIn({userAddress: await signer.getAddress(), name: "david"}))
 	};
 

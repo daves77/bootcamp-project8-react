@@ -12,8 +12,8 @@ import DashboardLayout from './layouts/dashboard'; // file not specified, will l
 import {
 	Context,
 	userSignIn,
-	createMktProviderContract,
-	createNftProviderContract,
+	createMarketContract,
+	createNFTContract,
 } from './store';
 import Home from './pages/Home';
 import Marketplace from './pages/Marketplace'; // file not specified, will look for index.jsx by default
@@ -52,19 +52,18 @@ function App() {
 				dispatch(
 					userSignIn({ userAddress: await signer.getAddress(), name: 'david' })
 				);
-
 			} else {
 				signer = provider;
 				console.log('provider', signer);
 			}
-			let mktContractProvider = new ethers.Contract(
+			let marketContract = new ethers.Contract(
 				mktAdd,
 				MarketListing.abi,
 				signer
 			);
-			let nftContractProvider = new ethers.Contract(nftAdd, NFT.abi, signer);
-			dispatch(createMktProviderContract({ mktContractProvider }));
-			dispatch(createNftProviderContract({ nftContractProvider }));
+			let nftContract = new ethers.Contract(nftAdd, NFT.abi, signer);
+			dispatch(createMarketContract({ marketContract }));
+			dispatch(createNFTContract({ nftContract }));
 
 			window.ethereum.on('chainChanged', () => {
 				console.log('chain changed');
@@ -83,7 +82,7 @@ function App() {
 						<Route path='/' element={<Home />} />
 						<Route path='/marketplace' element={<Marketplace />} />
 						<Route path='/create' element={<Create />} />
-						<Route path='/user' elemment={<UserCollection />} />
+						<Route path='/user' element={<UserCollection />} />
 					</Routes>
 				</DashboardLayout>
 			</ThemeConfig>
