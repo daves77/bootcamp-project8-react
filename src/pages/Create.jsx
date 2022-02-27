@@ -1,14 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { styled } from '@mui/material/styles';
 import { Container, Grid, Typography, Button, TextField, InputAdornment } from '@mui/material';
 import { useForm } from 'react-hook-form';
+import {ethers} from 'ethers'
 
 import Page from '../components/Page';
 import {pinFile} from '../utils/pinata'
-import {makeToken, listToken} from '../utils/contractInterface'
+import {listToken, makeToken} from '../utils/contractInterface'
+import {Context} from '../store'
 
 
 export default function Create() {
+  const {store, dispatch} = useContext(Context)
+  const {nftContract, marketContract} = store
 	const {
 		register,
 		handleSubmit,
@@ -22,6 +26,9 @@ export default function Create() {
       description: data.description
     }
     const ipfsHash = await pinFile(data.image[0], metadata)
+    const tokenId = await makeToken(nftContract, ipfsHash)
+    const price = ethers.utils.parseUnits(data.price, "ether")
+    await listToken(marketContract, nftContract, tokenId, price)
     console.log(ipfsHash)
 
   };

@@ -62,8 +62,8 @@ function App() {
 				signer
 			);
 			let nftContract = new ethers.Contract(nftAdd, NFT.abi, signer);
-			dispatch(createMarketContract({ marketContract }));
-			dispatch(createNFTContract({ nftContract }));
+			dispatch(createMarketContract(marketContract));
+			dispatch(createNFTContract(nftContract));
 
 			window.ethereum.on('chainChanged', () => {
 				console.log('chain changed');

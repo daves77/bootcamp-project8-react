@@ -75,14 +75,14 @@ export default function AccountPopover() {
 		await provider.send('eth_requestAccounts', []);
 		const signer = provider.getSigner();
 
-		let mktContractProvider = new ethers.Contract(
+		let marketContract = new ethers.Contract(
 			mktAdd,
 			MarketListing.abi,
 			signer
 		);
-		let nftContractProvider = new ethers.Contract(nftAdd, NFT.abi, signer);
-		dispatch(createMarketContract({ mktContractProvider }));
-		dispatch(createNFTContract({ nftContractProvider }));
+		let nftContract = new ethers.Contract(nftAdd, NFT.abi, signer);
+		dispatch(createMarketContract(marketContract));
+		dispatch(createNFTContract(nftContract));
     dispatch(userSignIn({userAddress: await signer.getAddress(), name: "david"}))
 	};
 
