@@ -1,24 +1,24 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Container, Grid, Typography, Button, TextField } from '@mui/material';
-import { useForm } from 'react-hook-form';
+// import { useForm } from 'react-hook-form';
 
 import Page from '../components/Page';
 
 
 export default function Create() {
-	const {
-		register,
-		handleSubmit,
-		watch,
-		formState: { errors },
-	} = useForm();
+	// const {
+	// 	register,
+	// 	handleSubmit,
+	// 	watch,
+	// 	formState: { errors },
+	// } = useForm();
 
 	const onSubmit = (data) => console.log(data);
 
 	return (
 		<Page title='Closed Land | Create'>
-			<Container>
+			{/* <Container>
 				<Typography variant='h2' sx={{ ml: -1 }}>
 					Create New NFT 🛠
 				</Typography>
@@ -56,7 +56,7 @@ export default function Create() {
 						</Button>
 					</form>
 				</Grid>
-			</Container>
+			</Container> */}
 		</Page>
 	);
 }

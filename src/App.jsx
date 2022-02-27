@@ -12,8 +12,6 @@ import DashboardLayout from './layouts/dashboard'; // file not specified, will l
 import {
 	Context,
 	userSignIn,
-	createMktProviderContract,
-	createNftProviderContract,
 } from './store';
 import Home from './pages/Home';
 import Marketplace from './pages/Marketplace'; // file not specified, will look for index.jsx by default
@@ -25,56 +23,56 @@ import NFT from './contracts/NFT.json';
 import { mktAdd, nftAdd } from './contracts/addressSetting.js';
 
 function App() {
-	const { store, dispatch } = useContext(Context);
-	console.log('store', store);
-	useEffect(() => {
-		(async () => {
-			// returns a list of account
-			const account = await window.ethereum.request({
-				method: 'eth_accounts',
-			});
-			console.log('accounts', account);
+	// const { store, dispatch } = useContext(Context);
+	// console.log('store', store);
+	// useEffect(() => {
+	// 	(async () => {
+	// 		// returns a list of account
+	// 		const account = await window.ethereum.request({
+	// 			method: 'eth_accounts',
+	// 		});
+	// 		console.log('accounts', account);
 
-			const provider = new ethers.providers.Web3Provider(
-				window.ethereum,
-				'any'
-			);
+	// 		const provider = new ethers.providers.Web3Provider(
+	// 			window.ethereum,
+	// 			'any'
+	// 		);
 
-			/* 
-			this chunk of code checks to see if theres a account linked to metamask
-			and assigns and creates the contract respectively
-			*/
-			let signer;
-			if (account.length > 0) {
-				// find if user address recorded in the db
-				// else make pop up and ask username
-				signer = provider.getSigner();
-				dispatch(
-					userSignIn({ userAddress: await signer.getAddress(), name: 'david' })
-				);
+	// 		/* 
+	// 		this chunk of code checks to see if theres a account linked to metamask
+	// 		and assigns and creates the contract respectively
+	// 		*/
+	// 		let signer;
+	// 		if (account.length > 0) {
+	// 			// find if user address recorded in the db
+	// 			// else make pop up and ask username
+	// 			signer = provider.getSigner();
+	// 			dispatch(
+	// 				userSignIn({ userAddress: await signer.getAddress(), name: 'david' })
+	// 			);
 
-			} else {
-				signer = provider;
-				console.log('provider', signer);
-			}
-			let mktContractProvider = new ethers.Contract(
-				mktAdd,
-				MarketListing.abi,
-				signer
-			);
-			let nftContractProvider = new ethers.Contract(nftAdd, NFT.abi, signer);
-			dispatch(createMktProviderContract({ mktContractProvider }));
-			dispatch(createNftProviderContract({ nftContractProvider }));
+	// 		} else {
+	// 			signer = provider;
+	// 			console.log('provider', signer);
+	// 		}
+	// 		let mktContractProvider = new ethers.Contract(
+	// 			mktAdd,
+	// 			MarketListing.abi,
+	// 			signer
+	// 		);
+	// 		let nftContractProvider = new ethers.Contract(nftAdd, NFT.abi, signer);
+	// 		// dispatch(createMktProviderContract({ mktContractProvider }));
+	// 		// dispatch(createNftProviderContract({ nftContractProvider }));
 
-			window.ethereum.on('chainChanged', () => {
-				console.log('chain changed');
-			});
+	// 		window.ethereum.on('chainChanged', () => {
+	// 			console.log('chain changed');
+	// 		});
 
-			window.ethereum.on('accountsChanged', () => {
-				console.log('accounts changed');
-			});
-		})();
-	}, [dispatch]);
+	// 		window.ethereum.on('accountsChanged', () => {
+	// 			console.log('accounts changed');
+	// 		});
+	// 	})();
+	// }, [dispatch]);
 	return (
 		<HelmetProvider>
 			<ThemeConfig>

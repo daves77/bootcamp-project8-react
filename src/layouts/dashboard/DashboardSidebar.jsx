@@ -14,8 +14,6 @@ import { Box, Link, Drawer, Typography, Avatar, Stack } from '@mui/material';
 // mocks_
 import account from '../../_mocks_/account';
 
-//
-import { Context } from '../../store';
 // ----------------------------------------------------------------------
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
