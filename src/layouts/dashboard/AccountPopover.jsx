@@ -1,6 +1,7 @@
 /* react related imports */
 import { useRef, useState, useContext } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
+
 import { Context, userSignIn } from "../../store";
 import Iconify from "../../components/Iconify";
 import MenuPopover from "../../components/MenuPopover";
@@ -51,6 +52,7 @@ export default function AccountPopover() {
   const [open, setOpen] = useState(false);
   const { store, dispatch } = useContext(Context);
   const { user } = store;
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     setOpen(true);
@@ -71,15 +73,16 @@ export default function AccountPopover() {
     /* "eth_requestAccounts" is what prompts MetaMask pop-up to ask user to accept or reject request */
     await provider.send("eth_requestAccounts", []);
     const accountAddress = await signer.getAddress();
-
+    
+    let mktSignerContract = new ethers.Contract(
+      mktAdd,
+      MarketListing.abi,
+      signer
+    );
+    
+    let nftSignerContract = new ethers.Contract(nftAdd, NFT.abi, signer);
     const result = await axios.get(`http://localhost:3004/${accountAddress}`);
     if (result.data) {
-      let mktSignerContract = new ethers.Contract(
-        mktAdd,
-        MarketListing.abi,
-        signer
-      );
-      let nftSignerContract = new ethers.Contract(nftAdd, NFT.abi, signer);
       dispatch(
         userSignIn(
           { userAddress: accountAddress, userName: result.data.userName },
@@ -88,8 +91,17 @@ export default function AccountPopover() {
           mktSignerContract
         )
       );
-    return}
-    alert("time to implement create db record modal")
+    return
+    }
+          dispatch(
+        userSignIn(
+          { userAddress: accountAddress, userName: null },
+          signer,
+          nftSignerContract,
+          mktSignerContract
+        )
+      );
+      navigate('/profile');
   };
 
   return (

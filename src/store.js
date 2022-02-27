@@ -3,6 +3,7 @@ import { createContext, useReducer } from "react";
 /* action type constants */
 const USER_SIGNED_IN = "USER_SIGNED_IN";
 const PROVIDERS_UPDATED = "PROVIDERS_UPDATED";
+const UPDATE_PROFILE = "UPDATE_PROFILE";
 
 /* useReducer initial state  */
 const initialState = {
@@ -11,7 +12,7 @@ const initialState = {
   signer: null,
   nftContract: null,
   mktContract: null,
-  };
+};
 
 /* useReducer reducer function */
 export const marketplaceReducer = (state, action) => {
@@ -32,6 +33,12 @@ export const marketplaceReducer = (state, action) => {
         provider: action.provider,
         nftContract: action.nftProviderContract,
         mktContract: action.mktProviderContract,
+      };
+      return newUserState;
+    case UPDATE_PROFILE:
+      newUserState = {
+        ...state,
+        user: action.userDetails,
       };
       return newUserState;
 
@@ -66,6 +73,15 @@ export const createProviders = (
     provider,
     nftProviderContract,
     mktProviderContract,
+  };
+};
+
+export const createProfile = (
+  userDetails
+) => {
+  return {
+    type: UPDATE_PROFILE,
+    userDetails,
   };
 };
 

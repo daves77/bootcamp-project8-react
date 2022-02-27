@@ -17,6 +17,7 @@ import Home from './pages/Home';
 import Marketplace from './pages/Marketplace'; // file not specified, will look for index.jsx by default
 import Create from './pages/Create';
 import UserCollection from './pages/UserCollection';
+import UserProfile from './pages/UserProfile';
 
 import MarketListing from './contracts/MarketListing.json';
 import NFT from './contracts/NFT.json';
@@ -81,7 +82,9 @@ function App() {
 						<Route path='/' element={<Home />} />
 						<Route path='/marketplace' element={<Marketplace />} />
 						<Route path='/create' element={<Create />} />
-						<Route path='/user' elemment={<UserCollection />} />
+						<Route path='/user' element={<UserCollection />} />
+						<Route path='/profile' element={<UserProfile />} />
+						
 					</Routes>
 				</DashboardLayout>
 			</ThemeConfig>

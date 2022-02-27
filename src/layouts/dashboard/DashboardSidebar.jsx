@@ -36,6 +36,12 @@ const sidebarConfig = [
 		icon: getIcon('eva:swap-fill'),
 		authRequired: true,
 	},
+  	{
+		title: 'profile',
+		path: '/profile',
+		icon: getIcon('eva:people-fill'),
+		authRequired: false,
+	},
 ];
 
 const DRAWER_WIDTH = 280;
