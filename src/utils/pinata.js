@@ -17,7 +17,7 @@ export const pinFile = async (file, metadata) => {
 		keyvalues: metadata,
 	});
 	data.append('pinataMetadata', stringifiedMetadata);
-  console.log(metadata)
+	console.log(metadata);
 	const result = await axios.post(url, data, {
 		maxBodyLength: 'Infinity',
 		headers,
@@ -26,6 +26,18 @@ export const pinFile = async (file, metadata) => {
 };
 
 export const getAllNFT = async () => {
-  const nftMetadata = await axios.get("https://api.pinata.cloud/data/pinList?status=pinned", headers)
-  return nftMetadata
+	const nftMetadata = await axios.get(
+		'https://api.pinata.cloud/data/pinList?status=pinned',
+		{headers}
+	);
+	return nftMetadata;
+};
+
+export const getNFTByHash = async (tokenURI) => {
+  console.log(tokenURI)
+	const metadata = await axios.get(
+		`https://api.pinata.cloud/data/pinList?hashContains=${tokenURI}&status=pinned`,
+		{headers}
+	);
+	return metadata;
 };
