@@ -81,26 +81,19 @@ export default function AccountPopover() {
 
     let nftSignerContract = new ethers.Contract(nftAdd, NFT.abi, signer);
     const result = await axios.get(`http://localhost:3004/${accountAddress}`);
-    if (result.data) {
-      dispatch(
-        userSignIn(
-          { userAddress: accountAddress, userName: result.data.userName },
-          signer,
-          nftSignerContract,
-          mktSignerContract
-        )
-      );
-      return;
+    console.log(result.data)
+    const userObj = {
+      userAddress: accountAddress,
+      name: result.data ? result.data.userName : null
     }
     dispatch(
       userSignIn(
-        { userAddress: accountAddress, userName: null },
-        signer,
+        userObj,
         nftSignerContract,
         mktSignerContract
       )
     );
-    navigate("/profile");
+    if (!result.data) navigate("/profile")
   };
 
   return (

@@ -12,6 +12,7 @@ import { getAllMarketItems } from "../utils/contractInterface";
 
 export default function Marketplace() {
   const { store } = useContext(Context);
+  console.log(store)
   const [items, setState] = useState([]);
   const { provider, mktContract, nftContract } = store;
   useEffect(() => {
@@ -24,9 +25,7 @@ export default function Marketplace() {
   }, [mktContract, nftContract]);
   return (
     <Page title="Closed Land | Marketplace">
-      {provider === null ? (
-        <p>Please at least connect to Metamask to view market listings</p>
-      ) : (
+
         <Container>
           <Typography variant="h2" sx={{ mb: 5 }}>
             Marketplace
@@ -42,7 +41,6 @@ export default function Marketplace() {
 
           <NFTListing listings={items} />
         </Container>
-      )}
     </Page>
   );
 }
