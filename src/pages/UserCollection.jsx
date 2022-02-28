@@ -5,7 +5,6 @@ import { Container, Stack, Typography } from "@mui/material";
 import Page from "../components/Page";
 import { NFTListing } from "../sections/marketplace";
 //
-import PRODUCTS from "../_mocks_/products";
 import { getAllUserItems } from "../utils/contractInterface";
 import {Context} from '../store'
  // ----------------------------------------------------------------------

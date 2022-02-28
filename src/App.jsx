@@ -11,7 +11,9 @@ import Marketplace from './pages/Marketplace';
 import Create from './pages/Create';
 import UserCollection from './pages/UserCollection';
 import UserProfile from './pages/UserProfile';
-import { Context, createContracts, userSignIn } from './store';
+import Trades from './pages/Trades'
+import { Context,  userSignIn, getItems } from './store';
+import { getAllMarketItems } from './utils/contractInterface';
 
 import MarketListing from './contracts/MarketListing.json';
 import NFT from './contracts/NFT.json';
@@ -33,6 +35,8 @@ function App() {
 	*/
 	useEffect(() => {
 		(async () => {
+			
+
 			// returns a list of account
 			const account = await window.ethereum.request({
 				method: 'eth_accounts',
@@ -69,7 +73,10 @@ function App() {
 			);
 			let nftContract = new ethers.Contract(nftAdd, NFT.abi, signer);
 			dispatch(userSignIn(user , nftContract, marketContract));
-
+			// get items for marketplace
+			const items = await getAllMarketItems(nftContract, marketContract)
+			dispatch(getItems(items))
+			
 			window.ethereum.on('chainChanged', () => {
 				console.log('chain changed');
 			});
@@ -90,6 +97,7 @@ function App() {
 						<Route path='/create' element={<Create />} />
 						<Route path='/user' element={<UserCollection />} />
 						<Route path='/profile' element={<UserProfile />} />
+						<Route path='/trade' element={<Trades />} />
 					</Routes>
 				</DashboardLayout>
 			</ThemeConfig>

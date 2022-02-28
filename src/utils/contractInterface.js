@@ -31,7 +31,6 @@ export const getAllMarketItems = async (nftContract, marketContract) => {
 	const items= []
 		for (let i = 0; i < marketData.length; i++){
 			const item = marketData[i]
-			if (item.status !== "sold") {
 				items.push(
 					{
 						itemId: Number(item.itemId),
@@ -46,7 +45,6 @@ export const getAllMarketItems = async (nftContract, marketContract) => {
 						status: item.status,
 				  }
 				)
-			}
 		}
 
 	

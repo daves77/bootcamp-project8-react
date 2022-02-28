@@ -12,18 +12,8 @@ import { getAllMarketItems } from "../utils/contractInterface";
 
 export default function Marketplace() {
   const { store } = useContext(Context);
+  const {items} = store
   console.log(store)
-  const [items, setState] = useState([]);
-  const { provider, mktContract, nftContract } = store;
-  useEffect(() => {
-    (async () => {
-      if (mktContract && nftContract) {
-        const marketItems = await getAllMarketItems(nftContract, mktContract);
-        console.log(marketItems)
-        setState(marketItems);
-      }
-    })();
-  }, [mktContract, nftContract]);
   return (
     <Page title="Closed Land | Marketplace">
 

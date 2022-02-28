@@ -13,7 +13,6 @@ import { styled } from "@mui/material/styles";
 import { Box, Link, Drawer, Typography, Avatar } from "@mui/material";
 // mocks_
 import account from "../../_mocks_/account";
-import { fil } from "date-fns/locale";
 
 // ----------------------------------------------------------------------
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;

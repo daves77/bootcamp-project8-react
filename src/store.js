@@ -4,6 +4,7 @@ import { createContext, useReducer } from "react";
 const USER_SIGNED_IN = "USER_SIGNED_IN";
 const PROVIDERS_UPDATED = "PROVIDERS_UPDATED";
 const UPDATE_PROFILE = "UPDATE_PROFILE";
+const RETRIEVED_ITEMS = "RETRIEVED_ITEMS"
 
 /* useReducer initial state  */
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   signer: null,
   nftContract: null,
   mktContract: null,
+  items: []
 };
 
 /* useReducer reducer function */
@@ -41,6 +43,12 @@ export const marketplaceReducer = (state, action) => {
         user: action.userDetails,
       };
       return newUserState;
+    case RETRIEVED_ITEMS:
+      newUserState = {
+        ...state,
+        items: action.items
+      }
+      return  newUserState
 
     default:
       return state;
@@ -78,6 +86,15 @@ export const createProfile = (
   return {
     type: UPDATE_PROFILE,
     userDetails,
+  };
+};
+
+export const getItems = (
+  items
+) => {
+  return {
+    type: RETRIEVED_ITEMS,
+    items,
   };
 };
 
