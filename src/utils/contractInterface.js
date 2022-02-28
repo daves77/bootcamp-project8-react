@@ -24,13 +24,11 @@ export const listToken = async (
 };
 
 export const getAllMarketItems = async (nftContract, marketContract) => {
-	console.log(marketContract);
 	// honestly this feels very bootleggy, think there is a better way to get around this
 	const marketData = await marketContract.getAllMarketItems();
 	const items = await Promise.all(
 		marketData.map(async (item) => {
 			const tokenURI = await nftContract.tokenURI(item.tokenId);
-      console.log(item.price.toString())
       const weiPrice =ethers.utils.formatUnits(item.price.toString(), "wei") 
     
       return {
