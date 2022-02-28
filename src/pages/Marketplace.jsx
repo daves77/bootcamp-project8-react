@@ -1,43 +1,48 @@
-import React, { useEffect, useContext, useState } from 'react';
-// material
-import { Container, Stack, Typography } from '@mui/material';
-// components
-import Page from '../components/Page';
-import { NFTListing } from '../sections/marketplace';
-//
-import PRODUCTS from '../_mocks_/products';
-import { getAllMarketItems } from '../utils/contractInterface';
-import { Context } from '../store';
+/* react imports */
+import { useEffect, useContext, useState } from "react";
+import Page from "../components/Page";
+import { NFTListing } from "../sections/marketplace";
+import { Context } from "../store";
+/* mui imports */
+import { Container, Stack, Typography } from "@mui/material";
+/* web3 imports */
+import { getAllMarketItems } from "../utils/contractInterface";
+
 // ----------------------------------------------------------------------
 
 export default function Marketplace() {
-	const { store, dispatch } = useContext(Context);
-  const [items, setState] = useState([])
-	const { marketContract, nftContract } = store;
-	useEffect(() => {
-		(async () => {
-			if (marketContract && nftContract) {
-				const marketItems = await getAllMarketItems(nftContract, marketContract);
-        setState(marketItems)
-			}
-		})();
-	}, [marketContract, nftContract]);
-	return (
-		<Page title='Closed Land | Marketplace'>
-			<Container>
-				<Typography variant='h2' sx={{ mb: 5 }}>
-					Marketplace
-				</Typography>
+  const { store } = useContext(Context);
+  const [items, setState] = useState([]);
+  const { provider, mktContract, nftContract } = store;
+  useEffect(() => {
+    (async () => {
+      if (mktContract && nftContract) {
+        const marketItems = await getAllMarketItems(nftContract, mktContract);
+        setState(marketItems);
+      }
+    })();
+  }, [mktContract, nftContract]);
+  return (
+    <Page title="Closed Land | Marketplace">
+      {provider === null ? (
+        <p>Please at least connect to Metamask to view market listings</p>
+      ) : (
+        <Container>
+          <Typography variant="h2" sx={{ mb: 5 }}>
+            Marketplace
+          </Typography>
 
-				<Stack
-					direction='row'
-					flexWrap='wrap-reverse'
-					alignItems='center'
-					justifyContent='flex-end'
-					sx={{ mb: 5 }}></Stack>
+          <Stack
+            direction="row"
+            flexWrap="wrap-reverse"
+            alignItems="center"
+            justifyContent="flex-end"
+            sx={{ mb: 5 }}
+          ></Stack>
 
-				<NFTListing listings={items} />
-			</Container>
-		</Page>
-	);
+          <NFTListing listings={items} />
+        </Container>
+      )}
+    </Page>
+  );
 }

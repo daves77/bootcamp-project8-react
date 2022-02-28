@@ -1,6 +1,8 @@
-import PropTypes from 'prop-types';
+/* react imports */
 import { Link as RouterLink } from 'react-router-dom';
-// material
+/* proptype verification imports */
+import PropTypes from 'prop-types';
+/* mui imports */
 import { Box, Card, Link, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils

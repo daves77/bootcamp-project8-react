@@ -10,6 +10,7 @@ const headers = {
 };
 
 export const pinFile = async (file, metadata) => {
+	console.log("This is headers",headers);
 	const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
 	const data = new FormData();
 	data.append('file', file);
@@ -17,7 +18,7 @@ export const pinFile = async (file, metadata) => {
 		keyvalues: metadata,
 	});
 	data.append('pinataMetadata', stringifiedMetadata);
-	console.log(metadata);
+	console.log("This is metadata",metadata);
 	const result = await axios.post(url, data, {
 		maxBodyLength: 'Infinity',
 		headers,

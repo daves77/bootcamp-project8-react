@@ -2,18 +2,16 @@ import { createContext, useReducer } from "react";
 
 /* action type constants */
 const USER_SIGNED_IN = "USER_SIGNED_IN";
-const PROVIDER_CREATED = "PROVIDER_CREATED";
-const SIGNER_CREATED = "SIGNER_CREATED";
-const NFT_CONTRACT_CREATED = "NFT_CONTRACT_CREATED";
-const MKT_CONTRACT_CREATED = "MKT_CONTRACT_CREATED";
+const PROVIDERS_UPDATED = "PROVIDERS_UPDATED";
+const UPDATE_PROFILE = "UPDATE_PROFILE";
 
 /* useReducer initial state  */
 const initialState = {
   user: null,
   provider: null,
   signer: null,
-  marketContract: null,
-  nftContract: null
+  nftContract: null,
+  mktContract: null,
 };
 
 /* useReducer reducer function */
@@ -21,24 +19,26 @@ export const marketplaceReducer = (state, action) => {
   let newUserState;
   switch (action.type) {
     case USER_SIGNED_IN:
-      newUserState = { ...state, user: action.userDetails };
-      return newUserState;
-    case PROVIDER_CREATED:
-      newUserState = { ...state, provider: action.provider };
-      return newUserState;
-    case SIGNER_CREATED:
-      newUserState = { ...state, signer: action.signer };
-      return newUserState;
-    case NFT_CONTRACT_CREATED:
       newUserState = {
         ...state,
-        nftContract: action.nftContract,
+        user: action.userDetails,
+        signer: action.signer,
+        nftContract: action.nftSignerContract,
+        mktContract: action.mktSignerContract,
       };
       return newUserState;
-    case MKT_CONTRACT_CREATED:
+    case PROVIDERS_UPDATED:
       newUserState = {
         ...state,
-        marketContract: action.marketContract,
+        provider: action.provider,
+        nftContract: action.nftProviderContract,
+        mktContract: action.mktProviderContract,
+      };
+      return newUserState;
+    case UPDATE_PROFILE:
+      newUserState = {
+        ...state,
+        user: action.userDetails,
       };
       return newUserState;
 
@@ -48,38 +48,40 @@ export const marketplaceReducer = (state, action) => {
 };
 
 /* functions to pass action object to useReducer dispatch function */
-export const userSignIn = (userDetails) => {
+export const userSignIn = (
+  userDetails,
+  signer,
+  nftSignerContract,
+  mktSignerContract
+) => {
   return {
     type: USER_SIGNED_IN,
     userDetails,
-  };
-};
-
-export const createProvider = (provider) => {
-  return {
-    type: PROVIDER_CREATED,
-    provider,
-  };
-};
-
-export const createSigner = (signer) => {
-  return {
-    type: SIGNER_CREATED,
     signer,
+    nftSignerContract,
+    mktSignerContract,
   };
 };
 
-export const createNFTContract = (nftContract) => {
+export const createProviders = (
+  provider,
+  nftProviderContract,
+  mktProviderContract
+) => {
   return {
-    type: NFT_CONTRACT_CREATED,
-    nftContract,
+    type: PROVIDERS_UPDATED,
+    provider,
+    nftProviderContract,
+    mktProviderContract,
   };
 };
 
-export const createMarketContract = (marketContract) => {
+export const createProfile = (
+  userDetails
+) => {
   return {
-    type: MKT_CONTRACT_CREATED,
-    marketContract,
+    type: UPDATE_PROFILE,
+    userDetails,
   };
 };
 
