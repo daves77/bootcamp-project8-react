@@ -1,8 +1,8 @@
-/* react related imports */
+/* react imports */
 import { useEffect, useContext } from "react";
 import { Context, createProviders } from "./../store";
 import Page from "../components/Page";
-/* web3 related imports */
+/* web3 imports */
 import { ethers } from "ethers";
 import MarketListing from "../contracts/MarketListing.json";
 import NFT from "../contracts/NFT.json";

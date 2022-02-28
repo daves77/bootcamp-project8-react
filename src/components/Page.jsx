@@ -1,10 +1,9 @@
-/* 
-1. prop-types chks to make sure props are of the correct types  (https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes)
-*/
-import PropTypes from "prop-types";
-import { Helmet } from "react-helmet-async";
+/* react imports */
 import { forwardRef } from "react";
-// material
+import { Helmet } from "react-helmet-async";
+/* proptype verification imports */
+import PropTypes from "prop-types";
+/* mui  imports */
 import { Box } from "@mui/material";
 
 // ----------------------------------------------------------------------

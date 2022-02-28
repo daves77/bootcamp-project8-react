@@ -1,27 +1,27 @@
-import React, { useEffect, useContext, useState } from 'react';
-// material
-import { Container, Stack, Typography } from '@mui/material';
-// components
+/* react imports */
+import { useEffect, useContext, useState } from 'react';
 import Page from '../components/Page';
 import { NFTListing } from '../sections/marketplace';
-//
-import PRODUCTS from '../_mocks_/products';
-import { getAllMarketItems } from '../utils/contractInterface';
 import { Context } from '../store';
+/* mui imports */
+import { Container, Stack, Typography } from '@mui/material';
+/* web3 imports */
+import { getAllMarketItems } from '../utils/contractInterface';
+
 // ----------------------------------------------------------------------
 
 export default function Marketplace() {
 	const { store, dispatch } = useContext(Context);
   const [items, setState] = useState([])
-	const { marketContract, nftContract } = store;
+	const { mktContract, nftContract } = store;
 	useEffect(() => {
 		(async () => {
-			if (marketContract && nftContract) {
-				const marketItems = await getAllMarketItems(nftContract, marketContract);
+			if (mktContract && nftContract) {
+				const marketItems = await getAllMarketItems(nftContract, mktContract);
         setState(marketItems)
 			}
 		})();
-	}, [marketContract, nftContract]);
+	}, [mktContract, nftContract]);
 	return (
 		<Page title='Closed Land | Marketplace'>
 			<Container>

@@ -1,7 +1,9 @@
-import PropTypes from 'prop-types';
-// material
-import { Grid } from '@mui/material';
+/* react imports */
 import NFTCard from './NFTCard';
+/* proptype verification imports */
+import PropTypes from 'prop-types';
+/* mui imports */
+import { Grid } from '@mui/material';
 
 // ----------------------------------------------------------------------
 

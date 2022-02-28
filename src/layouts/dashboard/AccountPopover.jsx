@@ -1,17 +1,10 @@
-/* react related imports */
+/* react imports */
 import { useRef, useState, useContext } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
-
 import { Context, userSignIn } from "../../store";
 import Iconify from "../../components/Iconify";
 import MenuPopover from "../../components/MenuPopover";
-/* web3, db related imports */
-import { ethers } from "ethers";
-import MarketListing from "../../contracts/MarketListing.json";
-import NFT from "../../contracts/NFT.json";
-import { mktAdd, nftAdd } from "../../contracts/addressSetting.js";
-import axios from "axios";
-/* mui related imports */
+/* mui  imports */
 import { alpha } from "@mui/material/styles";
 import {
   Button,
@@ -22,27 +15,33 @@ import {
   Avatar,
   IconButton,
 } from "@mui/material";
+/* web3, db  imports */
+import { ethers } from "ethers";
+import MarketListing from "../../contracts/MarketListing.json";
+import NFT from "../../contracts/NFT.json";
+import { mktAdd, nftAdd } from "../../contracts/addressSetting.js";
+import axios from "axios";
 //
 import account from "../../_mocks_/account";
 
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
-	{
-		label: 'Home',
-		icon: 'eva:home-fill',
-		linkTo: '/',
-	},
-	{
-		label: 'Profile',
-		icon: 'eva:person-fill',
-		linkTo: '#',
-	},
-	{
-		label: 'Settings',
-		icon: 'eva:settings-2-fill',
-		linkTo: '#',
-	},
+  {
+    label: "Home",
+    icon: "eva:home-fill",
+    linkTo: "/",
+  },
+  {
+    label: "Profile",
+    icon: "eva:person-fill",
+    linkTo: "#",
+  },
+  {
+    label: "Settings",
+    icon: "eva:settings-2-fill",
+    linkTo: "#",
+  },
 ];
 
 // ----------------------------------------------------------------------
@@ -73,13 +72,13 @@ export default function AccountPopover() {
     /* "eth_requestAccounts" is what prompts MetaMask pop-up to ask user to accept or reject request */
     await provider.send("eth_requestAccounts", []);
     const accountAddress = await signer.getAddress();
-    
+
     let mktSignerContract = new ethers.Contract(
       mktAdd,
       MarketListing.abi,
       signer
     );
-    
+
     let nftSignerContract = new ethers.Contract(nftAdd, NFT.abi, signer);
     const result = await axios.get(`http://localhost:3004/${accountAddress}`);
     if (result.data) {
@@ -91,17 +90,17 @@ export default function AccountPopover() {
           mktSignerContract
         )
       );
-    return
+      return;
     }
-          dispatch(
-        userSignIn(
-          { userAddress: accountAddress, userName: null },
-          signer,
-          nftSignerContract,
-          mktSignerContract
-        )
-      );
-      navigate('/profile');
+    dispatch(
+      userSignIn(
+        { userAddress: accountAddress, userName: null },
+        signer,
+        nftSignerContract,
+        mktSignerContract
+      )
+    );
+    navigate("/profile");
   };
 
   return (
@@ -167,8 +166,14 @@ export default function AccountPopover() {
             ))}
 
             <Box sx={{ p: 2, pt: 1.5 }}>
-              <Button onClick={()=>{window.location.assign("/")}}
-              fullWidth color="inherit" variant="outlined">
+              <Button
+                onClick={() => {
+                  window.location.assign("/");
+                }}
+                fullWidth
+                color="inherit"
+                variant="outlined"
+              >
                 Logout
               </Button>
             </Box>
