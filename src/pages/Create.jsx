@@ -18,7 +18,7 @@ import { pinFile } from "../utils/pinata";
 import { listToken, makeToken } from "../utils/contractInterface";
 
 export default function Create() {
-  const { store, dispatch } = useContext(Context);
+  const { store } = useContext(Context);
   const { nftContract, mktContract } = store;
   const {
     register,

@@ -11,7 +11,7 @@ import { getAllMarketItems } from '../utils/contractInterface';
 // ----------------------------------------------------------------------
 
 export default function Marketplace() {
-	const { store, dispatch } = useContext(Context);
+	const { store } = useContext(Context);
   const [items, setState] = useState([])
 	const { mktContract, nftContract } = store;
 	useEffect(() => {
