@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 /* mui imports */
 import { Box, Card, Link, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
+// utils
+//
+import Iconify from '../../components/Iconify';
 // ----------------------------------------------------------------------
 
 const NFTImageStyle = styled('img')({
@@ -54,7 +56,7 @@ export default function NFTCard({ listing }) {
         </Link>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Typography variant="subtitle1">
+          <Typography variant="subtitle1" sx={{display: "flex", alignItems:"center"}}>
             <Typography
               component="span"
               variant="body1"
@@ -64,8 +66,9 @@ export default function NFTCard({ listing }) {
               }}
             >
             </Typography>
+            <Iconify icon={'cib:ethereum'} sx={{width: 14, height:14}}/>
             &nbsp;
-            {price} ETH
+            {price} 
           </Typography>
         </Stack>
       </Stack>

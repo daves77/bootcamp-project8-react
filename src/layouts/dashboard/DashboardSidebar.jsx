@@ -13,6 +13,7 @@ import { styled } from "@mui/material/styles";
 import { Box, Link, Drawer, Typography, Avatar } from "@mui/material";
 // mocks_
 import account from "../../_mocks_/account";
+import { fil } from "date-fns/locale";
 
 // ----------------------------------------------------------------------
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
@@ -40,7 +41,7 @@ const sidebarConfig = [
     title: "profile",
     path: "/profile",
     icon: getIcon("eva:people-fill"),
-    authRequired: false,
+    authRequired: true,
   },
 ];
 
@@ -74,6 +75,9 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { user } = store;
 
   const isDesktop = useResponsive("up", "lg");
+
+    const filteredSideBarConfig = sidebarConfig.filter(item => user !== null || !item.authRequired)
+
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -122,7 +126,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Link>
       </Box>
 
-      <NavSection navConfig={sidebarConfig} />
+      <NavSection navConfig={filteredSideBarConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>
