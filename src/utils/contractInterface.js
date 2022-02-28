@@ -87,7 +87,7 @@ export const createMarketItemSale = async (nftContract, marketContract, itemId, 
 	console.log('wtf', wtf)
 	// console.log('mktcontract.getsigner', await marketContract.signer.getAddress())
 	await marketContract.createMarketItemSale(nftContract, itemId, {
-		value: (oriPrice.toString()), gasPrice: 41008240300,
+		value: (oriPrice.toString()), gasPrice: 372269299,
 		gasLimit: 30000000
 	})
 	console.log('this runs BE2')
