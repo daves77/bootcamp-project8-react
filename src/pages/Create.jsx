@@ -22,6 +22,7 @@ export default function Create() {
   const { store } = useContext(Context);
   const navigate = useNavigate();
   const { signer, nftContract, mktContract } = store;
+  console.log("create store", store)
   const {
     register,
     handleSubmit,
@@ -39,18 +40,10 @@ export default function Create() {
     const tokenId = await makeToken(nftContract, ipfsHash);
     const price = ethers.utils.parseUnits(data.price, "ether");
     await listToken(mktContract, nftContract, tokenId, price);
-    console.log(ipfsHash);
-    navigate("/");
   };
 
   return (
     <Page title="Closed Land | Create">
-      {signer === null ? (
-        <p>
-          Please connect an account to Metamask before attempting to create an
-          NFT
-        </p>
-      ) : (
         <Container>
           <Typography variant="h2" sx={{ ml: -1 }}>
             Create New NFT 🛠
@@ -103,7 +96,6 @@ export default function Create() {
             </form>
           </Grid>
         </Container>
-      )}
     </Page>
   );
 }

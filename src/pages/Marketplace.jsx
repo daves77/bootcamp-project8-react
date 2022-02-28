@@ -19,6 +19,7 @@ export default function Marketplace() {
     (async () => {
       if (mktContract && nftContract) {
         const marketItems = await getAllMarketItems(nftContract, mktContract);
+        console.log(marketItems)
         setState(marketItems);
       }
     })();

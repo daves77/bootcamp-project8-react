@@ -16,6 +16,7 @@ const initialState = {
 
 /* useReducer reducer function */
 export const marketplaceReducer = (state, action) => {
+  console.log("running")
   let newUserState;
   switch (action.type) {
     case USER_SIGNED_IN:
@@ -49,14 +50,14 @@ export const marketplaceReducer = (state, action) => {
 /* functions to pass action object to useReducer dispatch function */
 export const userSignIn = (
   userDetails,
-  nftSignerContract,
-  mktSignerContract
+  nftContract,
+  mktContract
 ) => {
   return {
     type: USER_SIGNED_IN,
     userDetails,
-    nftSignerContract,
-    mktSignerContract,
+    nftContract,
+    mktContract,
   };
 };
 
