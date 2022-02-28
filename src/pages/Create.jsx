@@ -1,8 +1,9 @@
 /* react imports */
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Page from "../components/Page";
 import { Context } from "../store";
+import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 /* mui imports */
 import {
@@ -17,12 +18,13 @@ import {
 import { ethers } from "ethers";
 import { pinFile } from "../utils/pinata";
 import { listToken, makeToken } from "../utils/contractInterface";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function Create() {
+  const [loading, setLoading] = useState(false);
   const { store } = useContext(Context);
   const navigate = useNavigate();
   const { signer, nftContract, mktContract } = store;
-  console.log("create store", store)
   const {
     register,
     handleSubmit,
@@ -31,6 +33,7 @@ export default function Create() {
   } = useForm();
 
   const onSubmit = async (data) => {
+    setLoading(true);
     /* want to consider verifying inputs? */
     const metadata = {
       name: data.name,
@@ -40,10 +43,21 @@ export default function Create() {
     const tokenId = await makeToken(nftContract, ipfsHash);
     const price = ethers.utils.parseUnits(data.price, "ether");
     await listToken(mktContract, nftContract, tokenId, price);
+    setInterval(() => {
+      setLoading(false);
+      navigate("/user");
+    }, 8000);
+    clearInterval(setInterval);
   };
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+  `;
 
   return (
-    <Page title="Closed Land | Create">
+    <div className="sweet-loading">
+      <Page title="Closed Land | Create">
         <Container>
           <Typography variant="h2" sx={{ ml: -1 }}>
             Create New NFT 🛠
@@ -96,6 +110,8 @@ export default function Create() {
             </form>
           </Grid>
         </Container>
-    </Page>
+      </Page>
+      <ClipLoader color={"blue"} loading={loading} css={override} size={150} />
+    </div>
   );
 }

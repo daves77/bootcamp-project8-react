@@ -85,7 +85,7 @@ function App() {
 			<ThemeConfig>
 				<DashboardLayout>
 					<Routes>
-						<Route path='/' element={<Home />} />
+						<Route path='/' element={<UserCollection />} />
 						<Route path='/marketplace' element={<Marketplace />} />
 						<Route path='/create' element={<Create />} />
 						<Route path='/user' element={<UserCollection />} />

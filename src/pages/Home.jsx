@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <Page title="Closed Land | Home">
-      <p>ok should work now</p>
+      <p>Welcome!</p>
     </Page>
   );
 };
