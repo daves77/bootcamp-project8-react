@@ -1,4 +1,5 @@
 /* react imports */
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "./layouts/dashboard";
 import Home from "./pages/Home";
@@ -20,26 +21,28 @@ function App() {
 	2. once change detected, reloads the entire app => user have to click on reconnect wallet in app again
 	3. using Metamask provided windows.ethereum API and not ethers.js cos ethers.js does not seem to provide a means to listen out for account changes 
 	*/
-  if (window.ethereum) {
-    const getAccount = async () => {
-      const account = await window.ethereum.request({
-        method: "eth_accounts",
-      });
-      window.ethereum.on("chainChanged", () => {
-        if (account.length > 0) {
-          window.location.assign("/");
-        }
-      });
+  useEffect(() => {
+    if (window.ethereum) {
+      const getAccount = async () => {
+        const account = await window.ethereum.request({
+          method: "eth_accounts",
+        });
+        window.ethereum.on("chainChanged", () => {
+          if (account.length > 0) {
+            window.location.assign("/");
+          }
+        });
 
-      window.ethereum.on("accountsChanged", () => {
-        if (account.length > 0) {
-          window.location.assign("/");
-        }
-      });
-    };
+        window.ethereum.on("accountsChanged", () => {
+          if (account.length > 0) {
+            window.location.assign("/");
+          }
+        });
+      };
 
-    getAccount();
-  }
+      getAccount();
+    }
+  });
 
   return (
     <HelmetProvider>

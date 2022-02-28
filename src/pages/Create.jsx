@@ -1,5 +1,6 @@
 /* react imports */
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Page from "../components/Page";
 import { Context } from "../store";
 import { useForm } from "react-hook-form";
@@ -19,7 +20,8 @@ import { listToken, makeToken } from "../utils/contractInterface";
 
 export default function Create() {
   const { store } = useContext(Context);
-  const { nftContract, mktContract } = store;
+  const navigate = useNavigate();
+  const { signer, nftContract, mktContract } = store;
   const {
     register,
     handleSubmit,
@@ -29,7 +31,7 @@ export default function Create() {
 
   const onSubmit = async (data) => {
     /* want to consider verifying inputs? */
-		const metadata = {
+    const metadata = {
       name: data.name,
       description: data.description,
     };
@@ -38,62 +40,70 @@ export default function Create() {
     const price = ethers.utils.parseUnits(data.price, "ether");
     await listToken(mktContract, nftContract, tokenId, price);
     console.log(ipfsHash);
+    navigate("/");
   };
 
   return (
     <Page title="Closed Land | Create">
-      <Container>
-        <Typography variant="h2" sx={{ ml: -1 }}>
-          Create New NFT 🛠
-        </Typography>
-        <Typography variant="subtitle2">
-          Personalize and upload your very own NFT collection!
-        </Typography>
+      {signer === null ? (
+        <p>
+          Please connect an account to Metamask before attempting to create an
+          NFT
+        </p>
+      ) : (
+        <Container>
+          <Typography variant="h2" sx={{ ml: -1 }}>
+            Create New NFT 🛠
+          </Typography>
+          <Typography variant="subtitle2">
+            Personalize and upload your very own NFT collection!
+          </Typography>
 
-        <Grid container spacing={3} sx={{ mt: 4, pl: 3 }}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid item xs={12}>
-              <Typography variant="h4" sx={{ mb: 2 }}>
-                Upload your masterpiece
-              </Typography>
-              <input {...register("image")} type="file" />
-            </Grid>
-            <Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
-              <TextField
-                variant="outlined"
-                label="Name"
-                {...register("name")}
-              />
-            </Grid>
-            <Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
-              <TextField
-                variant="outlined"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">ETH</InputAdornment>
-                  ),
-                }}
-                label="Price"
-                {...register("price")}
-              />
-            </Grid>
+          <Grid container spacing={3} sx={{ mt: 4, pl: 3 }}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Grid item xs={12}>
+                <Typography variant="h4" sx={{ mb: 2 }}>
+                  Upload your masterpiece
+                </Typography>
+                <input {...register("image")} type="file" />
+              </Grid>
+              <Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
+                <TextField
+                  variant="outlined"
+                  label="Name"
+                  {...register("name")}
+                />
+              </Grid>
+              <Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
+                <TextField
+                  variant="outlined"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">ETH</InputAdornment>
+                    ),
+                  }}
+                  label="Price"
+                  {...register("price")}
+                />
+              </Grid>
 
-            <Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
-              <TextField
-                variant="outlined"
-                multiline
-                label="Description"
-                placeholder="test"
-                minRows={4}
-                {...register("description")}
-              />
-            </Grid>
-            <Button variant="contained" type="submit">
-              Create
-            </Button>
-          </form>
-        </Grid>
-      </Container>
+              <Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
+                <TextField
+                  variant="outlined"
+                  multiline
+                  label="Description"
+                  placeholder="test"
+                  minRows={4}
+                  {...register("description")}
+                />
+              </Grid>
+              <Button variant="contained" type="submit">
+                Create
+              </Button>
+            </form>
+          </Grid>
+        </Container>
+      )}
     </Page>
   );
 }
