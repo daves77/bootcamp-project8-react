@@ -29,15 +29,70 @@ export const getAllMarketItems = async (nftContract, marketContract) => {
 	const items = await Promise.all(
 		marketData.map(async (item) => {
 			const tokenURI = await nftContract.tokenURI(item.tokenId);
-      const weiPrice =ethers.utils.formatUnits(item.price.toString(), "wei") 
-    
-      return {
-        tokenId: Number(item.tokenId),
-        image: tokenURI,
-        price: ethers.utils.formatUnits(weiPrice, "ether"),
-        seller: item.seller
-      }
+			const weiPrice = ethers.utils.formatUnits(item.price.toString(), "wei")
+
+			return {
+				itemId: Number(item.itemId),
+				tokenId: Number(item.tokenId),
+				image: tokenURI,
+				price: ethers.utils.formatUnits(weiPrice, "ether"),
+				oriPrice: item.price,
+				seller: item.seller,
+				sold: item.sold,
+				owner: item.owner
+
+			}
 		})
 	);
-  return items
+	return items
 };
+
+/**
+	 * @dev Creates a direct sale if the seller has an open listing
+	 */
+// function createMarketItemSale(address _nftContract, uint256 _itemId)
+// public
+// payable
+// nonReentrant
+// {
+//       MarketItem storage soldItem = marketItemId[_itemId];
+//       uint256 price = soldItem.price;
+//       uint256 tokenId = soldItem.tokenId;
+
+// 	//ensure that buyer sent enough eth to buy NFT
+// 	require(msg.value == price, "Not enough ETH for puchase");
+
+// 	// transfer eth from buyer to seller
+// 	soldItem.seller.transfer(msg.value);
+
+// 	// transfer ownership to buyer
+// 	IERC721(_nftContract).transferFrom(address(this), msg.sender, tokenId);
+
+// 	// update blockchain
+// 	soldItem.owner = payable(msg.sender);
+// 	soldItem.sold = true;
+// 	payable(_owner).transfer(itemListingPrice);
+//       emit MarketItemSold(_itemId, tokenId, price, _nftContract);
+// }
+export const createMarketItemSale = async (nftContract, marketContract, itemId, price, oriPrice) => {
+	// console.log('this runs BE')
+	// console.log('price', price)
+	const convert = ethers.utils.parseEther(price)
+	console.log('convert', convert)
+	console.log('nftContract', nftContract)
+	console.log('itemid', itemId)
+	console.log('mktcontract', marketContract)
+	console.log('mktcontract.signer', marketContract.signer)
+	const wtf = ethers.utils.parseEther(oriPrice.toString());
+	console.log('wtf', wtf)
+	// console.log('mktcontract.getsigner', await marketContract.signer.getAddress())
+	await marketContract.createMarketItemSale(nftContract, itemId, {
+		value: (oriPrice.toString()), gasPrice: 41008240300,
+		gasLimit: 30000000
+	})
+	console.log('this runs BE2')
+
+	console.log('sale was successful')
+}
+
+// ApprovalContract.methods.deposit(toAddress).send({ "from": fromAddress, gas: 1000000, "value": web3.utils.toWei(amount, 'ether') }
