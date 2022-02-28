@@ -1,13 +1,16 @@
 /* react imports */
+import React, {useContext} from 'react'
 import { Link as RouterLink } from 'react-router-dom';
 /* proptype verification imports */
 import PropTypes from 'prop-types';
 /* mui imports */
-import { Box, Card, Link, Typography, Stack } from '@mui/material';
+import { Box, Card, Link, Typography, Stack, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
 //
 import Iconify from '../../components/Iconify';
+import { buyMarketItem } from '../../utils/contractInterface';
+import {Context} from '../../store'
 // ----------------------------------------------------------------------
 
 const NFTImageStyle = styled('img')({
@@ -25,7 +28,12 @@ NFTCard.propTypes = {
 };
 
 export default function NFTCard({ listing }) {
-  const {tokenId, price, image, seller} = listing
+  const {store, dispatch} = useContext(Context)
+  const {itemId, tokenId, price, image, seller, priceEth} = listing
+
+  const handlePurchase = () => {
+    buyMarketItem(store.nftContract.address, store.mktContract, itemId, priceEth)
+  }
 
   return (
     <Card>
@@ -70,6 +78,7 @@ export default function NFTCard({ listing }) {
             &nbsp;
             {price} 
           </Typography>
+          <Button onClick={handlePurchase}>Buy</Button>
         </Stack>
       </Stack>
     </Card>
