@@ -28,26 +28,23 @@ export const getAllMarketItems = async (nftContract, marketContract) => {
 	// honestly this feels very bootleggy, think there is a better way to get around this
 	const marketData = await marketContract.getAllMarketItems();
 
-	const items= []
-		for (let i = 0; i < marketData.length; i++){
-			const item = marketData[i]
-				items.push(
-					{
-						itemId: Number(item.itemId),
-						tokenId: Number(item.tokenId),
-						image: await nftContract.tokenURI(item.tokenId),
-						priceEth: item.price,
-						price: ethers.utils.formatUnits(
-							ethers.utils.formatUnits(item.price.toString(), 'wei'),
-							'ether'
-						),
-						seller: item.seller,
-						status: item.status,
-				  }
-				)
-		}
+	const items = [];
+	for (let i = 0; i < marketData.length; i++) {
+		const item = marketData[i];
+		items.push({
+			itemId: Number(item.itemId),
+			tokenId: Number(item.tokenId),
+			image: await nftContract.tokenURI(item.tokenId),
+			priceEth: item.price,
+			price: ethers.utils.formatUnits(
+				ethers.utils.formatUnits(item.price.toString(), 'wei'),
+				'ether'
+			),
+			owner: item.owner,
+			status: item.status,
+		});
+	}
 
-	
 	console.log(items, 'items');
 	return items;
 };
@@ -56,27 +53,25 @@ export const getAllUserItems = async (nftContract, marketContract) => {
 	// honestly this feels very bootleggy, think there is a better way to get around this
 	const marketData = await marketContract.getAllMarketItems();
 	const userAddress = await marketContract.signer.getAddress();
-	const items= []
-		for (let i = 0; i < marketData.length; i++){
-			const item = marketData[i]
-			if (item.owner === userAddress || item.seller === userAddress) {
-				items.push(
-					{
-						itemId: Number(item.itemId),
-						tokenId: Number(item.tokenId),
-						image: await nftContract.tokenURI(item.tokenId),
-						priceEth: item.price,
-						price: ethers.utils.formatUnits(
-							ethers.utils.formatUnits(item.price.toString(), 'wei'),
-							'ether'
-						),
-						seller: item.seller,
-						status: item.status,
-				  }
-				)
-			}
+	const items = [];
+	for (let i = 0; i < marketData.length; i++) {
+		const item = marketData[i];
+		if (item.owner === userAddress || item.seller === userAddress) {
+			items.push({
+				itemId: Number(item.itemId),
+				tokenId: Number(item.tokenId),
+				image: await nftContract.tokenURI(item.tokenId),
+				priceEth: item.price,
+				price: ethers.utils.formatUnits(
+					ethers.utils.formatUnits(item.price.toString(), 'wei'),
+					'ether'
+				),
+				seller: item.seller,
+				status: item.status,
+			});
 		}
-	Promise.all(items)
+	}
+	Promise.all(items);
 	console.log(items, 'items');
 	return items;
 };
@@ -92,5 +87,32 @@ export const buyMarketItem = async (
 	const tx = marketContract.createMarketItemSale(nftContractAddress, itemId, {
 		gasLimit: ethers.utils.parseUnits('500000', 'wei'),
 		value: price,
+	});
+};
+
+export const sendTradeOffer = async (
+	offererItems,
+	offereeItems,
+	offereeAddress,
+	marketContract
+) => {
+	await marketContract.createItemTradeOffer(
+		offererItems,
+		offereeItems,
+		offereeAddress,
+		{ gasLimit: ethers.utils.parseUnits('500000', 'wei') }
+	);
+};
+
+export const getAllTradeOffers = async (userAddress,marketContract) => {
+	const offers = await marketContract.getUserTradeOffers(userAddress)
+	console.log(offers, "offers")
+	return offers
+}
+
+export const approveTradeOffer = async (tradeId,nftContractAddress, marketContract) => {
+	console.log(tradeId, nftContractAddress, marketContract)
+	await marketContract.approveTradeOffer(tradeId, nftContractAddress, {
+		gasLimit: ethers.utils.parseUnits('500000', 'wei'),
 	});
 };

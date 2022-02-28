@@ -13,7 +13,9 @@ import { getAllMarketItems } from "../utils/contractInterface";
 export default function Marketplace() {
   const { store } = useContext(Context);
   const {items} = store
-  console.log(store)
+
+  const sortedItems = items.filter(item => item.status === "available")
+
   return (
     <Page title="Closed Land | Marketplace">
 
@@ -30,7 +32,7 @@ export default function Marketplace() {
             sx={{ mb: 5 }}
           ></Stack>
 
-          <NFTListing listings={items} />
+          <NFTListing listings={sortedItems} />
         </Container>
     </Page>
   );

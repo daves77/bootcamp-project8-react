@@ -72,7 +72,7 @@ function App() {
 				signer
 			);
 			let nftContract = new ethers.Contract(nftAdd, NFT.abi, signer);
-			dispatch(userSignIn(user , nftContract, marketContract));
+			dispatch(userSignIn(user ,await signer.getAddress(), nftContract, marketContract));
 			// get items for marketplace
 			const items = await getAllMarketItems(nftContract, marketContract)
 			dispatch(getItems(items))

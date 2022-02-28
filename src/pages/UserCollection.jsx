@@ -1,43 +1,58 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, { useEffect, useState, useContext } from 'react';
 // material
-import { Container, Stack, Typography } from "@mui/material";
+import { Container, Stack, Typography, Grid } from '@mui/material';
 // components
-import Page from "../components/Page";
-import { NFTListing } from "../sections/marketplace";
+import Page from '../components/Page';
+import { NFTListing } from '../sections/marketplace';
+import TradeOffer from '../sections/user/TradeOffer'
 //
-import { getAllUserItems } from "../utils/contractInterface";
-import {Context} from '../store'
- // ----------------------------------------------------------------------
+import { getAllTradeOffers } from '../utils/contractInterface';
+import { Context } from '../store';
+// ----------------------------------------------------------------------
 
 export default function UserCollection() {
-  const {store} = useContext(Context)
-  const {nftContract, mktContract} = store
-  const [items, setItems] = useState([])
+  const [offers, setOffers] = useState([])
+	const { store } = useContext(Context);
+	const { items, signer , mktContract} = store;
+  
+  const userItems = items.filter(item => item.owner === signer)
+  
   useEffect(() => {
-    if (nftContract && mktContract){
     (async() => {
-      const retrievedItems = await getAllUserItems(nftContract, mktContract)
-      setItems(retrievedItems)
+      if (mktContract) {
+
+      const retrievedOffers = await getAllTradeOffers(signer, mktContract)
+      setOffers(retrievedOffers)
+      }
     })()
-    }
   }, [store])
-  return (
-    <Page title="Closed Land | Collection">
-      <Container>
-        <Typography variant="h2" sx={{ mb: 5 }}>
-          My Collection
-      </Typography>
 
-        <Stack
-          direction="row"
-          flexWrap="wrap-reverse"
-          alignItems="center"
-          justifyContent="flex-end"
-          sx={{ mb: 5 }}
-        ></Stack>
+  console.log(offers)
 
-        <NFTListing listings={items} />
-      </Container>
-    </Page>
-  );
+
+	return (
+		<Page title='Closed Land | Collection'>
+			<Container>
+				<Grid container spacing={3}>
+					<Grid item sm={12}>
+						<Typography variant='h2' sx={{ mb: 5 }}>
+							My Collection
+						</Typography>
+
+						<NFTListing listings={userItems} />
+					</Grid>
+
+					<Grid item sm={12}>
+						<Typography variant='h2' sx={{ mb: 5 }}>
+							My Offers
+						</Typography>
+              {offers && offers.map((offer, idx) => (
+                <TradeOffer offer={offer} key={idx} />
+              ))}
+
+					</Grid>
+				</Grid>
+			</Container>
+		</Page>
+	);
 }

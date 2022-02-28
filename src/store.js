@@ -25,6 +25,7 @@ export const marketplaceReducer = (state, action) => {
       newUserState = {
         ...state,
         user: action.userDetails,
+        signer: action.signer,
         nftContract: action.nftContract,
         mktContract: action.mktContract
       };
@@ -58,11 +59,13 @@ export const marketplaceReducer = (state, action) => {
 /* functions to pass action object to useReducer dispatch function */
 export const userSignIn = (
   userDetails,
+  signer,
   nftContract,
   mktContract
 ) => {
   return {
     type: USER_SIGNED_IN,
+    signer,
     userDetails,
     nftContract,
     mktContract,

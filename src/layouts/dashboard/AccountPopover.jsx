@@ -89,6 +89,7 @@ export default function AccountPopover() {
     dispatch(
       userSignIn(
         userObj,
+        accountAddress,
         nftSignerContract,
         mktSignerContract
       )

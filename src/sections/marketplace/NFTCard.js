@@ -29,7 +29,7 @@ NFTCard.propTypes = {
 
 export default function NFTCard({ listing }) {
   const {store, dispatch} = useContext(Context)
-  const {itemId, tokenId, price, image, seller, priceEth} = listing
+  const {itemId, tokenId, price, image, owner, priceEth} = listing
 
   const handlePurchase = () => {
     buyMarketItem(store.nftContract.address, store.mktContract, itemId, priceEth)
@@ -59,7 +59,7 @@ export default function NFTCard({ listing }) {
       <Stack spacing={2} sx={{ p: 3 }}>
         <Link to="#" color="inherit" underline="hover" component={RouterLink}>
           <Typography variant="subtitle2" noWrap>
-            {seller}
+            {owner}
           </Typography>
         </Link>
 
