@@ -1,6 +1,7 @@
 /* react imports */
 import Iconify from "../../components/Iconify";
 import AccountPopover from "./AccountPopover";
+import Notification from "../../components/Notification";
 /* proptype verification imports */
 import PropTypes from "prop-types";
 /* mui  imports */
@@ -55,6 +56,7 @@ export default function DashboardNavbar({ onOpenSidebar }) {
           alignItems="center"
           spacing={{ xs: 0.5, sm: 1.5 }}
         >
+          <Notification/>
           <AccountPopover />
         </Stack>
       </ToolbarStyle>

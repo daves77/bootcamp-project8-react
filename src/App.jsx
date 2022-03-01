@@ -12,7 +12,7 @@ import Create from './pages/Create';
 import UserCollection from './pages/UserCollection';
 import UserProfile from './pages/UserProfile';
 import Trades from './pages/Trades'
-import { Context,  userSignIn, getItems } from './store';
+import { Context,  userSignIn, getItems, setNotification } from './store';
 import { getAllMarketItems } from './utils/contractInterface';
 
 import MarketListing from './contracts/MarketListing.json';
@@ -84,6 +84,40 @@ function App() {
 			window.ethereum.on('accountsChanged', () => {
 				console.log('accounts changed');
 			});
+
+			marketContract.on("MarketItemCreated", () => {
+				console.log("market item created")
+				dispatch(setNotification("Token successfully created!", "success"))
+				
+				setTimeout(() => {
+				dispatch(setNotification(null))
+				}, 5000)
+			})
+			marketContract.on("MarketItemSold", () => {
+				console.log("market item sold")
+			dispatch(setNotification("Token successfully purchased!", "success"))
+				
+				setTimeout(() => {
+				dispatch(setNotification(null))
+				}, 5000)
+			})
+			marketContract.on("MarketTradeCreated", () => {
+				console.log("market trade created")
+
+				dispatch(setNotification("Trade successfully created!", "success"))
+				
+				setTimeout(() => {
+				dispatch(setNotification(null))
+				}, 5000)
+			})
+			marketContract.on("MarketTradeAccepted", () => {
+				dispatch(setNotification("Trade accepted!", "success"))
+				
+				setTimeout(() => {
+				dispatch(setNotification(null))
+				}, 5000)
+			})
+
 		})();
 	}, [dispatch]);
 

@@ -2,7 +2,7 @@
 import { useEffect, useContext, useState } from "react";
 import Page from "../components/Page";
 import { NFTListing } from "../sections/marketplace";
-import { Context } from "../store";
+import { Context, getItems } from "../store";
 /* mui imports */
 import { Container, Stack, Typography } from "@mui/material";
 /* web3 imports */
@@ -11,8 +11,18 @@ import { getAllMarketItems } from "../utils/contractInterface";
 // ----------------------------------------------------------------------
 
 export default function Marketplace() {
-  const { store } = useContext(Context);
-  const {items} = store
+  const { store, dispatch } = useContext(Context);
+  const {items, nftContract, mktContract} = store
+  
+  useEffect(() => {
+   (async() => {
+     if (nftContract && mktContract){
+
+    const retrievedItems = await getAllMarketItems(nftContract, mktContract)
+    dispatch(getItems(retrievedItems))
+     }
+   })()
+  }, [])
 
   const sortedItems = items.filter(item => item.status === "available")
 

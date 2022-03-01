@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles';
 import Iconify from '../../components/Iconify';
 import { buyMarketItem } from '../../utils/contractInterface';
 import { Context } from '../../store';
+import { ClassNames } from '@emotion/react';
 // ----------------------------------------------------------------------
 
 const NFTImageStyle = styled('img')({
@@ -27,13 +28,13 @@ NFTCard.propTypes = {
 	listing: PropTypes.object,
 };
 
-export default function NFTCard({ listing, trade, setTrade, setOffereeAddress }) {
+export default function NFTCard({ listing, trade, setTrade, setOffereeAddress, selected }) {
 	const { store, dispatch } = useContext(Context);
 	const { signer } = store;
 	const { itemId, tokenId, price, image, owner, priceEth } = listing;
 
 	const handleClick = () => {
-    console.log(signer, owner)
+    // needs fixing....
 		if (signer === owner) {
       let selectedItems = [...trade.user]    
 			if (trade.user.includes(itemId)) {
@@ -42,6 +43,7 @@ export default function NFTCard({ listing, trade, setTrade, setOffereeAddress })
 			} else {
         selectedItems.push(itemId)
       }
+      console.log(selectedItems, itemId)
 			setTrade({ ...trade , user: selectedItems});
 		} else {
       let selectedItems = [...trade.selected]    
@@ -52,7 +54,7 @@ export default function NFTCard({ listing, trade, setTrade, setOffereeAddress })
         selectedItems.push(itemId)
       }
 			setTrade({ ...trade , selected: selectedItems});
-
+      console.log(selectedItems, itemId)
       //fix this
       if (selectedItems.length === 0){
         setOffereeAddress("")
@@ -60,10 +62,14 @@ export default function NFTCard({ listing, trade, setTrade, setOffereeAddress })
         setOffereeAddress(owner)
       }
     }
+
+
 	};
 
+
+
 	return (
-		<Card onClick={handleClick}>
+		<Card onClick={handleClick} sx={{boxShadow: selected ? 20 :false}}>
 			<Box sx={{ pt: '100%', position: 'relative' }}>
 				{/* {status && (
           <Label

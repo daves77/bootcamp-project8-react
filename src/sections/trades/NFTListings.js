@@ -16,7 +16,7 @@ export default function NFTListings({ listings, trade,setTrade, setOffereeAddres
     <Grid container spacing={3} {...other}>
       {listings.map((listing) => (
         <Grid key={listing.tokenId} item xs={12} sm={6} md={4}>
-          <NFTCard listing={listing} trade={trade} setTrade={setTrade} setOffereeAddress={setOffereeAddress}/>
+          <NFTCard listing={listing} trade={trade} setTrade={setTrade} setOffereeAddress={setOffereeAddress} selected={trade.user.includes(listing.itemId) || trade.selected.includes(listing.itemId)}/>
         </Grid>
       ))}
     </Grid>

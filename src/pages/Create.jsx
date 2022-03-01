@@ -2,7 +2,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Page from "../components/Page";
-import { Context } from "../store";
+import { Context, setNotification } from "../store";
 import { useForm } from "react-hook-form";
 /* mui imports */
 import {
@@ -19,7 +19,7 @@ import { pinFile } from "../utils/pinata";
 import { listToken, makeToken } from "../utils/contractInterface";
 
 export default function Create() {
-  const { store } = useContext(Context);
+  const { store, dispatch } = useContext(Context);
   const navigate = useNavigate();
   const { signer, nftContract, mktContract } = store;
   console.log("create store", store)
@@ -36,10 +36,14 @@ export default function Create() {
       name: data.name,
       description: data.description,
     };
+
+    dispatch(setNotification("Creating Token", "info" ))
     const ipfsHash = await pinFile(data.image[0], metadata);
     const tokenId = await makeToken(nftContract, ipfsHash);
     const price = ethers.utils.parseUnits(data.price, "ether");
     await listToken(mktContract, nftContract, tokenId, price);
+
+    console.log("dispatch sent")
   };
 
   return (

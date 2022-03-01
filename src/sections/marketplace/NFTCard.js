@@ -28,8 +28,8 @@ NFTCard.propTypes = {
 };
 
 export default function NFTCard({ listing }) {
-  const {store, dispatch} = useContext(Context)
-  const {itemId, tokenId, price, image, owner, priceEth} = listing
+  const {store } = useContext(Context)
+  const {itemId, price, image, owner, priceEth} = listing
 
   const handlePurchase = () => {
     buyMarketItem(store.nftContract.address, store.mktContract, itemId, priceEth)
