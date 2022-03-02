@@ -47,11 +47,10 @@ Clone and launch the app in the following order:
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
 FRONTEND_URL = 'http://localhost:3000'
 PORT = 3004
+
+// Example for no password:
+// DATABASE_URL="postgresql://username@localhost:5432/nft_backend"
 ```
-
-<ins>Example for no password</ins>
-DATABASE_URL="postgresql://username@localhost:5432/nft_backend"
-
 3. Run command `npx prisma migrate dev --name init` to create Database and Tables.
 
 4. Run command `nodemon index.js` to start backend server. Keep this running.
@@ -90,5 +89,5 @@ New RPC URL: http://localhost:8545
 Chain ID: 1337
 ```
 
-3. In metamask, select the option to "Import Account" and paste the private keys of one of those accounts (in Samrt Contract - step 2) from the local hardhat node - to connect metamask to that account in order to use it.
-4. Start creating and trading your NFT in the website!
+3. In metamask, select the option to "Import Account" and paste the private keys of one of those accounts (in Smart Contract - step 2) from the local hardhat node - to connect metamask to that account in order to use it.
+4. Start creating and trading your NFT on the website!
